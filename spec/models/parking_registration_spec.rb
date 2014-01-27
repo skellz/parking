@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe ParkingRegistration do
+  it 'sends an email when parking is successful' do
+    prev_mail_count = ActionMailer::Base.deliveries.count
+    FactoryGirl.build(:parking_registration).park
+    expect(ActionMailer::Base.deliveries.count).to eql(prev_mail_count + 1)
+  end
   it do
     should have_valid(:email).when(
       'user@example.com',
